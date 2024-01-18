@@ -3,51 +3,52 @@
 #include <vector>
 using namespace std;
 
-vector<string> splitString(string s) {
-	vector<string> v;
+vector<string> splitString(string userInput) {
+	vector<string> wordsList;
 	string word = "";
-	for (char i : s) {
-		if (i == ' ') {
-			v.push_back(word);
+	for (char lettre : userInput) {
+		if (lettre == ' ') {
+			wordsList.push_back(word);
 			word = "";
 		}
 		else {
-			word += i;
+			word += lettre;
 		}
 	}
-	v.push_back(word);
-	return v;
+	wordsList.push_back(word);
+	return wordsList;
+}
+
+string getUserInput() { //a valider
+	string userInput;
+	cout << "Saisissez une phrase : ";
+	getline(cin, userInput);
+	cout << endl;
+	return userInput;
+}
+void ComputeStatsWords(vector<string> wordsList, string &longest, string &shortest, double &sum) { //inline
+	for (string word : wordsList) { // on connait le type que contient le vecteur wordList
+		if (word.length() > longest.length())
+			longest = word;
+		if (word.length() < shortest.length())
+			shortest = word;
+		sum += word.length();
+	}
+	sum /= wordsList.size(); //calcul de moyenne
 }
 /*
-string getUserInput() {
-	string
-	cout << "Saisissez une phrase : ";
-	getline(cin, user_input);
-	cout << endl;
-}
-*/
-int main() {
-	string user_input;
-	string longest = "";
-	double average = 0;
+int main() {//tres clean
+	double average = 0.0; //oof
+	string user_input = getUserInput();
 
-	cout << "Saisissez une phrase : ";
-	getline(cin, user_input);
-	cout << endl;
+	vector<string> wordsList = splitString(user_input);
+	string shortestWord = wordsList[0];
+	string longestWord = "";
 
-	vector<string> v = splitString(user_input);
-	string shortest = v[0];
+	ComputeStatsWords(wordsList, longestWord, shortestWord, average);
 
-	for (string i : v) {
-		if (i.length() > longest.length())
-			longest = i;
-		if (i.length() < shortest.length())
-			shortest = i;
-		average += i.length();
-	}
-	average /= v.size();
-	cout << "Le mot le plus court est : " << shortest << endl;
-	cout << "Le mot le plus long est : " << longest << endl;
-	cout << "La longueur moyenne est : " << average << endl;
+	cout << "Le mot le plus court est : " << shortestWord << endl;
+	cout << "Le mot le plus long est : " << longestWord << endl;
+	cout << "La longueur moyenne est : " << average << " lettres" << endl;
 	return 0;
-}
+}*/
