@@ -3,7 +3,7 @@
 #include <array>
 using namespace std;
 
-int getUserInput() { //peut etre static
+int getUserInt() { //peut etre static
 	string input;
 	int output;
 	bool isValidInput = false;
