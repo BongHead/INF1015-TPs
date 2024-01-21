@@ -3,13 +3,13 @@
 #include <array>
 using namespace std;
 
-int getUserInput() { //peut etre static
+int getUserInt() { //peut etre static
 	string input;
 	int output;
 	bool isValidInput = false;
 	while (!isValidInput) {
 		try {
-			cout << "Entrez un entier: " << endl;
+			cout << "Entrez un entier: ";
 			cin >> input;
 			output = stoi(input);
 			isValidInput = true;
@@ -21,24 +21,25 @@ int getUserInput() { //peut etre static
 	return output;
 }
 
-void insertInSortedArray(int arr[], int insert, int size) {
-	size++;
-	int flag = 0;
-	for (int i = 0; i < size; i++) {
-		if (arr[i] > insert) {
-
+void insertInSortedArray(int* arr, int insert, int size) { // ne marche pas avec 0
+	for (int i = size - 1; i >= 0; i--) {
+		if (arr[i] > insert)
+			arr[i + 1] = arr[i];
+		else {
+			arr[i + 1] = insert;
+			break; // voir guide de codage pls
 		}
 	}
-
 }
-
+/*
 int main() {
-	int table[100] = {1,3,4,7,9}; //de taille suffisante pour contenir toutes les insertions
+	int table[20] = { 1,3,4,7,9 }; // de taille suffisante pour contenir toutes les insertions
 	int size = 5;
-
-	cout << size << endl;
-
-
-
+	int userInput = getUserInt();
+	insertInSortedArray(table, userInput, size);
+	for (auto i : table) {
+		cout << i << endl;
+	}
 	return 0;
 }
+*/
