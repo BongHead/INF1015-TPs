@@ -8,11 +8,11 @@ int generateRandomNumber(int min, int max) {
 	int randomNumber = min + (rand() % ((max - min) + 1));
 	return randomNumber;
 }
-double readUserInputDouble() {
+double readUserInputDouble(int min, int max) {
 	string input;
 	double output;
 	bool isValidInput = false;
-	while (!isValidInput) {
+	while (!(isValidInput) || !((stod(input) >= min) || !(stod(input) <= max))) {
 		try {
 			cout << "Entrez un reel: ";
 			cin >> input;
@@ -31,7 +31,7 @@ void guessRandomNumberGame(int min, int max) {
 	double currentGuess = 0; //ou int
 	int correctNum = generateRandomNumber(min, max);
 	while (currentGuess != correctNum) {
-		currentGuess = readUserInputDouble(); //conversion implicite
+		currentGuess = readUserInputDouble(min, max); //conversion implicite possible
 		if (currentGuess < correctNum)
 			cout << "Trop bas" << endl;
 		else if (currentGuess > correctNum)
@@ -42,6 +42,8 @@ void guessRandomNumberGame(int min, int max) {
 }
 //faire une fonction qui fait le main au complet
 
+
 int main() {
+	srand(time(0)); //assure un nouveau seed pour random
 	guessRandomNumberGame(0, 1000);
 }

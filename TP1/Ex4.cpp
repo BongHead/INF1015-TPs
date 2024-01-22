@@ -14,7 +14,7 @@ int russianMultiplication(int num1, int num2) { //utilisation de unsigned prefer
 	}
 	return result;
 }
-struct tests {
+struct tests { // ???
 
 };
 bool testRussianMultiplication(int num1, int num2) {
