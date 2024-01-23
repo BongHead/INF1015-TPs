@@ -8,16 +8,16 @@ int generateRandomNumber(int min, int max) {
 	int randomNumber = min + (rand() % ((max - min) + 1));
 	return randomNumber;
 }
-double readUserInputDouble(int min, int max) {
+double readUserInputDouble(string display, int min, int max) {
 	string input;
 	double output;
 	bool isValidInput = false;
-	while (!(isValidInput) || !((stod(input) >= min) || !(stod(input) <= max))) {
+	while (!isValidInput) { //conditions pour delimiter le min et le max
 		try {
-			cout << "Entrez un reel: ";
+			cout << display;
 			cin >> input;
 			output = stod(input);
-			isValidInput = true;
+			isValidInput = (output >= min) && (output <= max);
 		}
 		catch (exception& error) {
 			// rien faire
@@ -26,24 +26,26 @@ double readUserInputDouble(int min, int max) {
 	return output;
 }
 
-void guessRandomNumberGame(int min, int max) {
-	int numGuesses = 0;
-	double currentGuess = 0; //ou int
+void guessRandomNumberGame(string display, int min, int max) {
+	int nGuesses = 0;
+	int currentGuess = 0;
 	int correctNum = generateRandomNumber(min, max);
 	while (currentGuess != correctNum) {
-		currentGuess = readUserInputDouble(min, max); //conversion implicite possible
+		currentGuess = readUserInputDouble(display ,min, max); // conversion implicite
 		if (currentGuess < correctNum)
 			cout << "Trop bas" << endl;
 		else if (currentGuess > correctNum)
 			cout << "Trop haut" << endl;
-		numGuesses++;
+		nGuesses++;
 	}
-	cout << "Bravo! Vous avez reussi en " << numGuesses << " tentatives!" << endl;
+	cout << "Bravo! Vous avez reussi en " << nGuesses << " tentatives!" << endl;
 }
-//faire une fonction qui fait le main au complet
 
-
-int main() {
+void Problem5() {
 	srand(time(0)); //assure un nouveau seed pour random
-	guessRandomNumberGame(0, 1000);
+	const int minBoundary = 0;
+	const int maxBoundary = 1000;
+	string wantedDisplay = "Entrez un entier: "; // elimination de nombres magiques
+
+	guessRandomNumberGame(wantedDisplay, minBoundary, maxBoundary);
 }

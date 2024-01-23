@@ -6,39 +6,39 @@ using namespace std;
 vector<string> splitString(string userInput) {
 	vector<string> wordsList;
 	string word = "";
-	for (char lettre : userInput) {
-		if (lettre == ' ') {
+	for (char letter : userInput) {
+		if (letter == ' ') {
 			wordsList.push_back(word);
 			word = "";
 		}
 		else {
-			word += lettre;
+			word += letter;
 		}
 	}
 	wordsList.push_back(word);
 	return wordsList;
 }
 
-string getUserInput() { //a valider
+string getUserInput() {
 	string userInput;
 	cout << "Saisissez une phrase : ";
 	getline(cin, userInput);
 	cout << endl;
 	return userInput;
 }
-void ComputeStatsWords(vector<string> wordsList, string &longest, string &shortest, double &sum) { //inline
-	for (string word : wordsList) { // on connait le type que contient le vecteur wordList
+void ComputeStatsWords(vector<string> wordsList, string &longest, string &shortest, double &average) {
+	for (string word : wordsList) {
 		if (word.length() > longest.length())
 			longest = word;
 		if (word.length() < shortest.length())
 			shortest = word;
-		sum += word.length();
+		average += word.length();
 	}
-	sum /= wordsList.size(); //calcul de moyenne
+	average /= wordsList.size(); // calcul de moyenne
 }
-/*
-int main() {//tres clean
-	double average = 0.0; //oof
+
+void Problem1() {
+	double average = 0.0;
 	string user_input = getUserInput();
 
 	vector<string> wordsList = splitString(user_input);
@@ -50,5 +50,4 @@ int main() {//tres clean
 	cout << "Le mot le plus court est : " << shortestWord << endl;
 	cout << "Le mot le plus long est : " << longestWord << endl;
 	cout << "La longueur moyenne est : " << average << " lettres" << endl;
-	return 0;
-}*/
+}
