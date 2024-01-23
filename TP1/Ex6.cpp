@@ -77,7 +77,7 @@ void showTicTacToeWinner(string fileName) {
 }
 
 
-void Problem6() {
+void problem6() {
 	string userInput;
 	cout << "Entrez le nom d'un fichier: ";
 	cin >> userInput; //on assume que le fichier est valide

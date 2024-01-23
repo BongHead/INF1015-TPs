@@ -21,7 +21,7 @@ double computeLimitSeries(int precision) {
 	return currentValue;
 }
 
-void Problem2() {
+void problem2() {
 	const int precision = 5;
 	const int displayDecimals = 20;
 	cout << std::fixed << std::showpoint;

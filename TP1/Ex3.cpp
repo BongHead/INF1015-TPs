@@ -31,7 +31,7 @@ void insertInSortedArray(int* arr, int insert, int size) {
 	arr[i + 1] = insert;
 }
 
-void main() {
+void problem3() {
 	int table[20] = { 1,3,4,7,9 }; // de taille suffisante pour contenir toutes les insertions
 	const int size = 5;
 	int userInput = getUserInputInt();

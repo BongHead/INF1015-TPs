@@ -26,7 +26,7 @@ string getUserInput() {
 	cout << endl;
 	return userInput;
 }
-void ComputeStatsWords(vector<string> wordsList, string &longest, string &shortest, double &average) {
+void computeStatsWords(vector<string> wordsList, string &longest, string &shortest, double &average) {
 	for (string word : wordsList) {
 		if (word.length() > longest.length())
 			longest = word;
@@ -37,7 +37,7 @@ void ComputeStatsWords(vector<string> wordsList, string &longest, string &shorte
 	average /= wordsList.size(); // calcul de moyenne
 }
 
-void Problem1() {
+void problem1() {
 	double average = 0.0;
 	string user_input = getUserInput();
 
@@ -45,7 +45,7 @@ void Problem1() {
 	string shortestWord = wordsList[0];
 	string longestWord = "";
 
-	ComputeStatsWords(wordsList, longestWord, shortestWord, average);
+	computeStatsWords(wordsList, longestWord, shortestWord, average);
 
 	cout << "Le mot le plus court est : " << shortestWord << endl;
 	cout << "Le mot le plus long est : " << longestWord << endl;

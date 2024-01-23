@@ -40,6 +40,6 @@ void testRussianMultiplication() {
 }
 
 
-void Problem4() {
+void problem4() {
 	testRussianMultiplication();
 }

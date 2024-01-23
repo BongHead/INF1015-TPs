@@ -41,7 +41,7 @@ void guessRandomNumberGame(string display, int min, int max) {
 	cout << "Bravo! Vous avez reussi en " << nGuesses << " tentatives!" << endl;
 }
 
-void Problem5() {
+void problem5() {
 	srand(time(0)); //assure un nouveau seed pour random
 	const int minBoundary = 0;
 	const int maxBoundary = 1000;
