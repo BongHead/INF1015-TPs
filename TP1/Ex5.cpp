@@ -29,12 +29,12 @@ double readUserInputDouble(string display, int min, int max) {
 void guessRandomNumberGame(string display, int min, int max) {
 	int nGuesses = 0;
 	int currentGuess = 0;
-	int correctNum = generateRandomNumber(min, max);
-	while (currentGuess != correctNum) {
+	int correctNumber = generateRandomNumber(min, max);
+	while (currentGuess != correctNumber) {
 		currentGuess = readUserInputDouble(display ,min, max); // conversion implicite
-		if (currentGuess < correctNum)
+		if (currentGuess < correctNumber)
 			cout << "Trop bas" << endl;
-		else if (currentGuess > correctNum)
+		else if (currentGuess > correctNumber)
 			cout << "Trop haut" << endl;
 		nGuesses++;
 	}
