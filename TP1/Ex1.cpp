@@ -32,7 +32,7 @@ void ComputeStatsWords(vector<string> wordsList, string &longest, string &shorte
 			longest = word;
 		if (word.length() < shortest.length())
 			shortest = word;
-		sum += word.length();
+		sum] += word.length();
 	}
 	sum /= wordsList.size(); //calcul de moyenne
 }

@@ -31,15 +31,14 @@ void insertInSortedArray(int* arr, int insert, int size) { // ne marche pas avec
 		}
 	}
 }
-/*
+
 int main() {
 	int table[20] = { 1,3,4,7,9 }; // de taille suffisante pour contenir toutes les insertions
 	int size = 5;
 	int userInput = getUserInputInt();
 	insertInSortedArray(table, userInput, size);
-	for (auto i : table) {
-		cout << i << endl;
+	for (int i = 0; i < size + 1; i++) {
+		cout << table[i] << endl;
 	}
 	return 0;
 }
-*/

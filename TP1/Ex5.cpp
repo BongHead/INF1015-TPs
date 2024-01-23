@@ -28,7 +28,7 @@ double readUserInputDouble(int min, int max) {
 
 void guessRandomNumberGame(int min, int max) {
 	int numGuesses = 0;
-	double currentGuess = 0; //ou int
+	int currentGuess = 0; //ou int
 	int correctNum = generateRandomNumber(min, max);
 	while (currentGuess != correctNum) {
 		currentGuess = readUserInputDouble(min, max); //conversion implicite possible
@@ -42,8 +42,11 @@ void guessRandomNumberGame(int min, int max) {
 }
 //faire une fonction qui fait le main au complet
 
-
+/*
 int main() {
-	srand(time(0)); //assure un nouveau seed pour random
-	guessRandomNumberGame(0, 1000);
+	//srand(time(0)); //assure un nouveau seed pour random
+	const int min = 0;
+	const int max = 1000;
+	guessRandomNumberGame(min, max);
 }
+*/
