@@ -100,7 +100,9 @@ void problem2() {
 
 int getUserInputInt() {
 	string input;
-	int output;
+	int output; // donne un warning C4701: potentially uninitialized local variable. L'initialiser à NULL serait comme
+				// l'initaliser à 0, donc ce n'est pas tres utile. De toute facon, la boucle while et le try-catch garantit
+				// une valeur int assignee à la variable output.
 	bool isValidInput = false;
 	while (!isValidInput) {
 		try {
@@ -109,7 +111,7 @@ int getUserInputInt() {
 			output = stoi(input);
 			isValidInput = true;
 		}
-		catch (exception& error) {
+		catch (...) { // afin de ne pas avoir une variable non referencee (exception& error)
 			cout << "Entier invalide. Reessayez." << endl;
 		}
 	}
@@ -191,7 +193,9 @@ int generateRandomNumber(int min, int max) {
 
 double readUserInputDouble(string display, int min, int max) {
 	string input;
-	double output;
+	double output;  // donne un warning C4701: potentially uninitialized local variable. L'initialiser à NULL serait comme
+					// l'initaliser à 0, donc ce n'est pas tres utile. De toute facon, la boucle while et le try-catch garantit
+					// une valeur int assignee à la variable output.
 	bool isValidInput = false;
 	while (!isValidInput) { //conditions pour delimiter le min et le max
 		try {
@@ -200,8 +204,8 @@ double readUserInputDouble(string display, int min, int max) {
 			output = stod(input);
 			isValidInput = (output >= min) && (output <= max);
 		}
-		catch (exception& error) {
-			// rien faire
+		catch (...) { // afin de ne pas avoir une variable non referencee (exception& error)
+			// ne rien faire
 		}
 	}
 	return output;
@@ -212,7 +216,7 @@ void guessRandomNumberGame(string display, int min, int max) {
 	int currentGuess = 0;
 	int correctNumber = generateRandomNumber(min, max);
 	while (currentGuess != correctNumber) {
-		currentGuess = readUserInputDouble(display, min, max); // conversion implicite
+		currentGuess = (int) readUserInputDouble(display, min, max); // expliciter la conversion afin d'enlever le warning lors de la compilation
 		if (currentGuess < correctNumber)
 			cout << "Trop bas" << endl;
 		else if (currentGuess > correctNumber)
@@ -223,7 +227,7 @@ void guessRandomNumberGame(string display, int min, int max) {
 }
 
 void problem5() {
-	srand(time(0)); //assure un nouveau seed pour random
+	srand((unsigned int) time(0)); //assure un nouveau seed pour random
 	const int minBoundary = 0;
 	const int maxBoundary = 1000;
 	string wantedDisplay = "Entrez un entier: "; // elimination de nombres magiques
