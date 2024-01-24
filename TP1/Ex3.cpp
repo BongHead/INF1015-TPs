@@ -1,6 +1,6 @@
+/*
 #include <iostream>
 #include <string>
-#include <array>
 using namespace std;
 
 int getUserInputInt() {
@@ -40,3 +40,4 @@ void problem3() {
 		cout << table[i] << endl;
 	}
 }
+*/

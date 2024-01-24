@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <string>
 #include <vector>
@@ -43,3 +44,4 @@ void testRussianMultiplication() {
 void problem4() {
 	testRussianMultiplication();
 }
+*/

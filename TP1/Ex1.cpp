@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <string>
 #include <vector>
 using namespace std;
@@ -51,3 +51,4 @@ void problem1() {
 	cout << "Le mot le plus long est : " << longestWord << endl;
 	cout << "La longueur moyenne est : " << average << " lettres" << endl;
 }
+*/

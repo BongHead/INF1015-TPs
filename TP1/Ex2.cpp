@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <cmath>
 #include <iomanip>
@@ -27,3 +28,4 @@ void problem2() {
 	cout << std::fixed << std::showpoint;
 	cout << setprecision(displayDecimals) << computeLimitSeries(precision) << endl;
 }
+*/

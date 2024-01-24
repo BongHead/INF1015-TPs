@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -31,7 +32,7 @@ void guessRandomNumberGame(string display, int min, int max) {
 	int currentGuess = 0;
 	int correctNumber = generateRandomNumber(min, max);
 	while (currentGuess != correctNumber) {
-		currentGuess = readUserInputDouble(display ,min, max); // conversion implicite
+		currentGuess = readUserInputDouble(display, min, max); // conversion implicite
 		if (currentGuess < correctNumber)
 			cout << "Trop bas" << endl;
 		else if (currentGuess > correctNumber)
@@ -49,3 +50,4 @@ void problem5() {
 
 	guessRandomNumberGame(wantedDisplay, minBoundary, maxBoundary);
 }
+*/
