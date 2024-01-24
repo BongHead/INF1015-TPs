@@ -238,13 +238,14 @@ void problem5() {
 
 
 
-
+/*
 void removeSpaces(string& text) {
 	for (int i = 0; i < text.length(); i++) {
 		if (text[i] == ' ')
 			text.erase(i, 1);
 	}
 }
+*/
 
 char checkWinner(vector<vector<char>> board) {
 	char winner;
@@ -285,7 +286,8 @@ void showTicTacToeWinner(string fileName) {
 	file.open(fileName);
 	int lines = 0;
 	while (getline(file, text)) {
-		removeSpaces(text);
+		erase(text, ' '); // seulement a partir de C++20
+		//removeSpaces(text);
 		for (char letter : text) {
 			board[lines].push_back(letter);
 		}
