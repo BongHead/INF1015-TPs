@@ -280,7 +280,8 @@ char checkWinner(vector<vector<char>> board) {
 void showTicTacToeWinner(string fileName) {
 	ifstream file;
 	string text;
-	vector<vector<char>> board(3);
+	int boardSize = 3;
+	vector<vector<char>> board(boardSize);
 	file.open(fileName);
 	int lines = 0;
 	while (getline(file, text)) {
