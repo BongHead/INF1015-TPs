@@ -89,7 +89,7 @@ double computeLimitSeries(int precision) {
 void problem2() {
 	const int precision = 5;
 	const int displayDecimals = 20;
-	cout << std::fixed << std::showpoint;
+	cout << fixed << showpoint;
 	cout << "La limite de la suite apres une precision de " << precision << " chiffres apres la virgule est: ";
 	cout << setprecision(displayDecimals) << computeLimitSeries(precision) << endl;
 }
@@ -238,13 +238,14 @@ void problem5() {
 
 
 
-
+/*
 void removeSpaces(string& text) {
 	for (int i = 0; i < text.length(); i++) {
 		if (text[i] == ' ')
 			text.erase(i, 1);
 	}
 }
+*/
 
 char checkWinner(vector<vector<char>> board) {
 	char winner;
@@ -280,12 +281,13 @@ char checkWinner(vector<vector<char>> board) {
 void showTicTacToeWinner(string fileName) {
 	ifstream file;
 	string text;
-	int boardSize = 3;
+	const int boardSize = 3;
 	vector<vector<char>> board(boardSize);
 	file.open(fileName);
 	int lines = 0;
 	while (getline(file, text)) {
-		removeSpaces(text);
+		erase(text, ' '); // seulement a partir de C++20
+		//removeSpaces(text);
 		for (char letter : text) {
 			board[lines].push_back(letter);
 		}
