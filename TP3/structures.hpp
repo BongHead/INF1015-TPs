@@ -34,14 +34,39 @@ private:
 template<typename T>
 class Liste {
 public:
-	int capacite, nElements;
-	unique_ptr<T* []> elements;
-	Liste()  {
-		elements = make_unique<T*[]>(capacite);
-		capacite = 1;
-		nElements = 0;
+	Liste() = default;
+	Liste(int capacite)  {
+		capacite_ = 1;
+		nElements_ = 0;
+		elements_ = make_unique<T*[]>(capacite_);
 	}
-	Liste(const Liste<T>& l) { assert(l.elements == nullptr); }
+	Liste(const Liste<T>& l) {
+		capacite_ = l.capacite_;
+		nElements_ = l.nElements_;
+		elements_ = make_unique<T* []>(l.capacite_);
+	}
+	~Liste(){}
+	unique_ptr<T* []> getElements() {
+		return elements_;
+	}
+	int getNElements() {
+		return nElements_;
+	}
+	int getCapacite() {
+		return capacite_;
+	}
+	void setElements(unique_ptr<T* []> elements) {
+		elements_ = move(elements);
+	}
+	void setNElements(int valeur) {
+		nElements_ = valeur;
+	}
+	void setCapacite(int valeur) {
+		capacite_ = valeur;
+	}
+private:
+	int capacite_, nElements_;
+	unique_ptr<T* []> elements_;
 };
 using ListeActeurs = Liste<Acteur>;
 

@@ -100,9 +100,7 @@ void problem2() {
 
 int getUserInputInt() {
 	string input;
-	int output; // donne un warning C4701: potentially uninitialized local variable. L'initialiser à NULL serait comme
-				// l'initaliser à 0, donc ce n'est pas tres utile. De toute facon, la boucle while et le try-catch garantit
-				// une valeur int assignee à la variable output.
+	int output = NULL;
 	bool isValidInput = false;
 	while (!isValidInput) {
 		try {
@@ -193,7 +191,7 @@ int generateRandomNumber(int min, int max) {
 
 double readUserInputDouble(string display, int min, int max) {
 	string input;
-	double output;  // donne un warning C4701: potentially uninitialized local variable. L'initialiser à NULL serait comme
+	double output = NULL;  // donne un warning C4701: potentially uninitialized local variable. L'initialiser à NULL serait comme
 					// l'initaliser à 0, donc ce n'est pas tres utile. De toute facon, la boucle while et le try-catch garantit
 					// une valeur int assignee à la variable output.
 	bool isValidInput = false;
