@@ -35,19 +35,12 @@ template<typename T>
 class Liste {
 public:
 	Liste() = default;
-	Liste(int capacite)  {
-		capacite_ = 1;
-		nElements_ = 0;
-		elements_ = make_unique<T*[]>(capacite_);
-	}
-	Liste(const Liste<T>& l) {
-		capacite_ = l.capacite_;
-		nElements_ = l.nElements_;
-		elements_ = make_unique<T* []>(l.capacite_);
+	Liste(int capacite, int nElements):capacite_(capacite), nElements_(nElements), elements_(make_unique<T*[]>(capacite)) {}
+	Liste(const Liste<T>& l) : capacite_(l.capacite_), nElements_(l.nElements_), elements_(make_unique<T*[]>(l.capacite_)) {
 	}
 	~Liste(){}
 	unique_ptr<T* []> getElements() {
-		return elements_;
+		return move(elements_);
 	}
 	int getNElements() {
 		return nElements_;
@@ -55,8 +48,8 @@ public:
 	int getCapacite() {
 		return capacite_;
 	}
-	void setElements(unique_ptr<T* []> elements) {
-		elements_ = move(elements);
+	void setElements(unique_ptr<T* []> newPtr) {
+		newPtr = move(elements_);
 	}
 	void setNElements(int valeur) {
 		nElements_ = valeur;
