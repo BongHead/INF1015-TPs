@@ -46,8 +46,8 @@ public:
 		elements_ = make_unique<T* []>(l.capacite_);
 	}
 	~Liste(){}
-	unique_ptr<T* []> getElements() {
-		return elements_;
+	span<Acteur*> getElements() {
+		return span(elements_.get(), nElements_);
 	}
 	int getNElements() {
 		return nElements_;

@@ -106,13 +106,13 @@ void ListeFilms::enleverFilm(const Film* film)
 //TODO: Une fonction pour trouver un Acteur par son nom dans une ListeFilms, qui retourne un pointeur vers l'acteur, ou nullptr si l'acteur n'est pas trouvé.  Devrait utiliser span.
 //[
 // Voir la NOTE ci-dessous pourquoi Acteur* n'est pas const.  Noter que c'est valide puisque c'est la struct uniquement qui est const dans le paramètre, et non ce qui est pointé par la struct.
-span<Acteur*> spanListeActeurs(ListeActeurs liste) { return span(liste.getElements().get(), liste.getNElements()); } // return span(liste.elements), liste.nElements);
+//span<Acteur*> spanListeActeurs(ListeActeurs liste) { return span(liste.getElements().get(), liste.getNElements()); } // return span(liste.elements), liste.nElements);
 
 //NOTE: Doit retourner un Acteur modifiable, sinon on ne peut pas l'utiliser pour modifier l'acteur tel que demandé dans le main, et on ne veut pas faire écrire deux versions.
 Acteur* ListeFilms::trouverActeur(const string& nomActeur) const
 {
-	for (const Film* film : enSpan()) {
-		for (Acteur* acteur : spanListeActeurs(film->acteurs)) { //film->acteurs.elements
+	for (Film* film : enSpan()) {
+		for (Acteur* acteur : film->acteurs.getElements()) { //film->acteurs.elements
 			if (acteur->nom == nomActeur)
 				return acteur;
 		}
@@ -163,7 +163,7 @@ Film* lireFilm(istream& fichier//[
 	for (int i = 0; i < film.acteurs.nElements; i++) {
 		//[
 	*/
-	for (Acteur*& acteur : spanListeActeurs(filmp->acteurs)) {
+	for (Acteur*& acteur : filmp->acteurs.getElements()) {
 		acteur =
 			//]
 			lireActeur(fichier//[
@@ -231,7 +231,7 @@ bool joueEncore(const Acteur* acteur)
 }
 void detruireFilm(Film* film)
 {
-	for (Acteur* acteur : spanListeActeurs(film->acteurs)) {
+	for (Acteur* acteur : film->acteurs.getElements()) {
 		acteur->joueDans.enleverFilm(film);
 		if (!joueEncore(acteur))
 			detruireActeur(acteur);
@@ -261,14 +261,14 @@ void afficherActeur(const Acteur& acteur)
 
 //TODO: Une fonction pour afficher un film avec tous ces acteurs (en utilisant la fonction afficherActeur ci-dessus).
 //[
-void afficherFilm(const Film& film)
+void afficherFilm(Film film)
 {
 	cout << "Titre: " << film.titre << endl;
 	cout << "  Réalisateur: " << film.realisateur << "  Année :" << film.anneeSortie << endl;
 	cout << "  Recette: " << film.recette << "M$" << endl;
 
 	cout << "Acteurs:" << endl;
-	for (const Acteur* acteur : spanListeActeurs(film.acteurs))
+	for (const Acteur* acteur : film.acteurs.getElements())
 		afficherActeur(*acteur);
 }
 //]
