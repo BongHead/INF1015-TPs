@@ -16,6 +16,9 @@
 #include <limits>
 #include <algorithm>
 #include <sstream>
+#include <vector>
+#include <iomanip>
+#include <variant>
 
 #include "cppitertools/range.hpp"
 #include "gsl/span"
@@ -241,7 +244,16 @@ ostream& operator<<(ostream& stream, const Film& film) {
 		stream << *acteur;
 	return stream;
 }
-
+void lireLivres(const string& nomFichier, vector<variant<Film*, Livre*>>& vecteur) {
+	ifstream fichier(nomFichier);
+	string ligne;
+	while (getline(fichier, ligne)) {
+		string titre;
+		istringstream stream(ligne);
+		stream >> quoted(titre);
+		cout << ligne << endl;
+	}
+}
 
 
 int main()
@@ -256,28 +268,19 @@ int main()
 
 	//TODO: La ligne suivante devrait lire le fichier binaire en allouant la mémoire nécessaire.  Devrait afficher les noms de 20 acteurs sans doublons (par l'affichage pour fins de débogage dans votre fonction lireActeur).
 	ListeFilms listeFilms("films.bin");
-
-	cout << ligneDeSeparation << "Le premier film de la liste est:" << endl;
+	vector<variant<Film*, Livre*>> bibliotheque; //plus securitaire que union
+	//cout << ligneDeSeparation << "Le premier film de la liste est:" << endl;
 	//TODO: Afficher le premier film de la liste.  Devrait être Alien.
-	
-	cout << *(listeFilms[0]);
+	for (Film*& film : listeFilms.enSpan())
+		bibliotheque.push_back(film);
 
+
+	for (variant<Film*, Livre*> item : bibliotheque)
+		cout << get<Film*>(item)->titre << endl;
+	lireLivres("livres.txt", bibliotheque);
 	cout << ligneDeSeparation;
 	//test ch 7
-	cout << "Les 2 premiers films:" << endl;
-	cout << *(listeFilms[1]) << *(listeFilms[2]);
-	ostringstream tamponStringStream;
-	tamponStringStream << *(listeFilms[0]);
-	string filmString = tamponStringStream.str();
-	ofstream fichier("unfilm.txt");
-	fichier << *(listeFilms[0]);
-	static const string testCh7 = "Titre: Alien\n"
-		"  Réalisateur: Ridley Scott  Année :1979\n"
-		"  Recette: 203M$\n"
-		"Acteurs:\n"
-		"  Tom Skerritt, 1933 M\n"
-		"  Sigourney Weaver, 1949 F\n"
-		"  John Hurt, 1940 M\n";
+	
 	//assert(filmString == testCh7);
 
 	
@@ -285,73 +288,42 @@ int main()
 	cout << ligneDeSeparation << "Les films sont:" << endl;
 	//TODO: Afficher la liste des films.  Il devrait y en avoir 7.
 	
-	afficherListeFilms(listeFilms);
+	
 	
 
 	//TODO: Modifier l'année de naissance de Benedict Cumberbatch pour être 1976 (elle était 0 dans les données lues du fichier).  Vous ne pouvez pas supposer l'ordre des films et des acteurs dans les listes, il faut y aller par son nom.
 	
-	listeFilms.trouverActeur("Benedict Cumberbatch")->anneeNaissance = 1976;
+	
 	
 	
 	//TODO: Afficher la liste des films où Benedict Cumberbatch joue.  Il devrait y avoir Le Hobbit et Le jeu de l'imitation.
 	
 	// tests ch 7-8
-	cout << ligneDeSeparation;
-	Film skylien = *(listeFilms[0]);
-	skylien.titre = "Skylien";
-	skylien.acteurs[0] = listeFilms[1]->acteurs[0];
-	skylien.acteurs[0]->nom = "Daniel Wroughton Craig";
-	cout << skylien << endl;
-	cout << *(listeFilms[0]) << endl;
-	cout << *(listeFilms[1]) << endl;
-	assert(skylien.titre == "Skylien");
-	assert(skylien.acteurs[0]->nom == "Daniel Wroughton Craig");
-	assert(listeFilms[0]->acteurs[0]->nom == "Tom Skerritt");
-	assert(listeFilms[0]->acteurs[1]->nom == "Sigourney Weaver");
-	assert(listeFilms[0]->acteurs[2]->nom == "John Hurt");
-	assert(listeFilms[1]->acteurs[0]->nom == "Daniel Wroughton Craig");
+	
 	cout << ligneDeSeparation;
 	//TODO: Détruire et enlever le premier film de la liste (Alien).  Ceci devrait "automatiquement" (par ce que font vos fonctions) détruire les acteurs Tom Skerritt et John Hurt, mais pas Sigourney Weaver puisqu'elle joue aussi dans Avatar.
 	
 	//tests ch 10
-	function<bool(const Film&)> fonction955MRecette = [](const Film& film) {return film.recette == 955; };
-	Film* film955Recette = listeFilms.trouverParCritere(fonction955MRecette);
-	cout << "film avec 955M$ de recette: " << endl;
-	cout << *(film955Recette) << endl;
-	cout << ligneDeSeparation;
-
+	
 	//tests ch 9
-	static const int tailleInitiale = 2;
-	Liste<string> listeTextes(tailleInitiale);
-	listeTextes.ajouterElement(make_shared<string>("foo"));
-	listeTextes.ajouterElement(make_shared<string>("bar"));
-	Liste<string> listeTextes2 = listeTextes;
-	listeTextes2[0] = make_shared<string>("baz");
-	*(listeTextes[1]) = "aaa";
+	
 
-	assert(*(listeTextes[0]) == "foo");
-	assert(*(listeTextes2[0]) == "baz");
-	assert(*(listeTextes[1]) == *(listeTextes2[1]));
-	assert(*(listeTextes[0]) == "foo");
+	
 
 
-	detruireFilm(listeFilms.enSpan()[0]);
-	listeFilms.enleverFilm(listeFilms.enSpan()[0]);
+	
 	
 
 	cout << ligneDeSeparation << "Les films sont maintenant:" << endl;
 	//TODO: Afficher la liste des films.
 	
-	afficherListeFilms(listeFilms);
+	
 	
 
 	//TODO: Faire les appels qui manquent pour avoir 0% de lignes non exécutées dans le programme (aucune ligne rouge dans la couverture de code; c'est normal que les lignes de "new" et "delete" soient jaunes).  Vous avez aussi le droit d'effacer les lignes du programmes qui ne sont pas exécutée, si finalement vous pensez qu'elle ne sont pas utiles.
 	
 	// Les lignes à mettre ici dépendent de comment ils ont fait leurs fonctions.  Dans mon cas:
-	listeFilms.enleverFilm(nullptr); // Enlever un film qui n'est pas dans la liste (clairement que nullptr n'y est pas).
-	function<bool(const Film&)> fonctionInvalide = [](const Film& film) {return film.realisateur == "sdgkjlgjsd"; };
-	Film* a = listeFilms.trouverParCritere(fonctionInvalide);
-	assert(a == nullptr);
+	
 
 	//TODO: Détruire tout avant de terminer le programme.  L'objet verifierFuitesAllocations devrait afficher "Aucune fuite detectee." a la sortie du programme; il affichera "Fuite detectee:" avec la liste des blocs, s'il manque des delete.
 	

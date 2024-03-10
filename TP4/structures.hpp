@@ -21,7 +21,7 @@ using gsl::span;
 using namespace std;
 using namespace iter;
 
-struct Film; struct Acteur; // Permet d'utiliser les types alors qu'ils seront définis après.
+class Film; struct Acteur; // Permet d'utiliser les types alors qu'ils seront définis après.
 
 class ListeFilms {
 public:
@@ -37,7 +37,7 @@ public:
 	Film*& operator[](int index) const {
 		return elements_[index];
 	}
-	Film* trouverParCritere(const function<bool(const Film&)>& critere) {
+	Film* trouverParCritere(const function<bool(const Film&)>& critere) const{
 		for (Film*& film : enSpan()) {
 			if (critere(*film))
 				return film;
@@ -78,11 +78,8 @@ public:
 		elements_ = move(liste);
 	}
 
-	shared_ptr<T>& operator[](int index) {
-		return elements_[index];
-	}
-	int obtenirNElements(int nElements) {
-		nElements_ = nElements;
+	int obtenirNElements() {
+		return nElements_;
 	}
 	shared_ptr<T>& operator[](int index) const {
 		return elements_[index];
@@ -99,15 +96,28 @@ private:
 using ListeActeurs = Liste<Acteur>;
 
 
+class Item {
+public:
+	string titre = "";
+	int anneeSortie = 0;
+private:
+};
 
-
-struct Film
+class Film : virtual public Item
 {
-	string titre = "", realisateur = ""; // Titre et nom du réalisateur (on suppose qu'il n'y a qu'un réalisateur).
-	int anneeSortie = 0, recette = 0; // Année de sortie et recette globale du film en millions de dollars
+public:
+	string realisateur = ""; // Titre et nom du réalisateur (on suppose qu'il n'y a qu'un réalisateur).
+	int recette = 0; // Année de sortie et recette globale du film en millions de dollars
 	ListeActeurs acteurs;
 
+	friend shared_ptr<Acteur> trouverActeur(const string& nomActeur);
 	friend ostream& operator<<(ostream& stream, const Film& film);
+	ListeActeurs& obtenirActeurs() {
+		return acteurs;
+	}
+private:
+	
+
 	
 };
 
@@ -115,4 +125,18 @@ struct Acteur
 {
 	string nom = ""; int anneeNaissance = 0; char sexe = ' ';
 	friend ostream& operator<<(ostream& stream, const Acteur& acteur);
+};
+
+
+class Livre : virtual public Item {
+public:
+	string auteur = "";
+	int copiesVendues = 0;
+	int nPages = 0;
+private:
+	
+};
+
+class FilmLivre : public Film, public Livre {
+	
 };
