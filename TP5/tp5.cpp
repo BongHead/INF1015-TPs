@@ -234,7 +234,7 @@ void afficherListeFilms(const vector<unique_ptr<Item>>& vecteur)
 	}
 }
 
-void lireLivres(const string& nomFichier, vector<unique_ptr<Item>>& vecteur) {
+void lireLivres(const string& nomFichier, vector<shared_ptr<Item>>& vecteur) {
 	ifstream fichier(nomFichier);
 	string ligne;
 	while (getline(fichier, ligne)) {
@@ -244,7 +244,7 @@ void lireLivres(const string& nomFichier, vector<unique_ptr<Item>>& vecteur) {
 		int annee = stoi(anneeString);
 		int copies = stoi(copiesString);
 		int pages = stoi(pagesString);
-		vecteur.push_back(make_unique<Livre>(titre, annee, auteur, copies, pages));
+		vecteur.push_back(make_shared<Livre>(titre, annee, auteur, copies, pages));
 	}
 }
 
@@ -252,6 +252,15 @@ forward_list<shared_ptr<Item>> inverserListe(const forward_list<shared_ptr<Item>
 	forward_list<shared_ptr<Item>> temp;
 	for (auto&& item : liste)
 		temp.push_front(item);
+	return temp;
+}
+
+forward_list<shared_ptr<Item>> copierListe(const forward_list<shared_ptr<Item>>& liste) {
+	forward_list<shared_ptr<Item>> temp;
+	temp.push_front(*liste.begin());
+	for (auto&& item : liste) {
+		temp.insert_after();
+	}
 	return temp;
 }
 
@@ -263,10 +272,10 @@ int main()
 
 	
 	ListeFilms listeFilms("films.bin");
-	vector<unique_ptr<Item>> bibliotheque;
+	vector<shared_ptr<Item>> bibliotheque;
 	
 	for (Film* film : listeFilms.enSpan())
-		bibliotheque.push_back(make_unique<Film>(*film));
+		bibliotheque.push_back(make_shared<Film>(*film));
 
 
 	
@@ -274,13 +283,13 @@ int main()
 	
 	cout << ligneDeSeparation;
 	// test afficher
-	afficherListeItems<vector<unique_ptr<Item>>>(bibliotheque);
+	afficherListeItems<vector<shared_ptr<Item>>>(bibliotheque);
 
 	// test FilmLivre
 	Film hobbitFilm(*dynamic_cast<Film*>(bibliotheque.at(4).get()));
 	Livre hobbitLivre(*dynamic_cast<Livre*>(bibliotheque.at(10).get()));
 	FilmLivre a(hobbitFilm, hobbitLivre);
-	bibliotheque.push_back(make_unique<FilmLivre>(hobbitFilm, hobbitLivre));
+	bibliotheque.push_back(make_shared<FilmLivre>(hobbitFilm, hobbitLivre));
 
 	// test affichage FilmLivre
 	cout << (*bibliotheque.back()); //dernier element
@@ -288,10 +297,11 @@ int main()
 
 	cout << ligneDeSeparation;
 	// TD5
+
 	forward_list<shared_ptr<Item>> liste1;
 
 	for (int i = bibliotheque.size(); i > 0; i--) {
-		liste1.push_front(make_shared<Item>(*(bibliotheque[i - 1])));
+		liste1.push_front(bibliotheque[i - 1]);
 	}
 	afficherListeItems<forward_list<shared_ptr<Item>>>(liste1);
 	forward_list<shared_ptr<Item>> liste2 = inverserListe(liste1);
@@ -299,5 +309,10 @@ int main()
 	cout << ligneDeSeparation;
 	afficherListeItems<forward_list<shared_ptr<Item>>>(liste2);
 	
+
+	forward_list<shared_ptr<Item>> liste3(liste1);
+
+	afficherListeItems<forward_list<shared_ptr<Item>>>(liste3);
+
 
 }
