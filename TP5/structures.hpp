@@ -148,7 +148,6 @@ struct Acteur
 
 class Livre : virtual public Item {
 public:
-	Livre() = default;
 	Livre(const string& titre, int annee, const string& auteur, int nCopies, int nPages)
 		:Item(titre, annee), auteur(auteur), copiesVendues(nCopies), nPages(nPages) {}
 
@@ -166,12 +165,6 @@ class FilmLivre : public Film, public Livre {
 public:
 	FilmLivre(const Film& film, const Livre& livre):
 		Item(film), Film(film), Livre(livre){}
-
-	FilmLivre(const Film& film) :
-		Item(film), Film(film) {}
-	FilmLivre( const Livre& livre) :
-		Item(livre), Livre(livre) {}
-
 	~FilmLivre(){}
 
 	void afficher(bool avecItem) const override;
