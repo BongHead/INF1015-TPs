@@ -28,7 +28,6 @@ public:
 	ListeFilms(const string& nomFichier);
 	ListeFilms(const ListeFilms& l) { assert(l.elements_ == nullptr); }
 	void ajouterFilm(Film* film);
-	void enleverFilm(const Film* film);
 	~ListeFilms();
 	shared_ptr<Acteur> trouverActeur(const string& nomActeur) const;
 	span<Film*> enSpan() const;
@@ -88,6 +87,33 @@ public:
 		elements_[nElements_] = move(element);
 		nElements_++;
 	}
+
+	class Iterator {
+	public:
+		Iterator(int position, Liste<T>& liste) : position_(position), liste_(liste) {}
+
+		shared_ptr<T>& operator*() {
+			return liste_.elements_[position_];
+		}
+		Iterator& operator++() {
+			position_++;
+			return *this;
+		}
+		bool operator==(const Iterator& autre) const {
+			return position_ == autre.position_;
+		}
+	private:
+		int position_;
+		Liste<T>& liste_;
+	};
+
+	Iterator begin() {
+		return Iterator(0, *this);
+	}
+	Iterator end() {
+		return Iterator(nElements_, *this);
+	}
+	
 private:
 	int capacite_ = 0, nElements_ = 0;
 	unique_ptr<shared_ptr<T>[]> elements_;
@@ -107,7 +133,6 @@ public:
 	friend shared_ptr<Acteur> ListeFilms::trouverActeur(const string& nomActeur) const;
 	friend Film* lireFilm(istream& fichier, ListeFilms& listeFilms);
 	friend void detruireFilm(Film* film);
-	friend ostream& operator<<(ostream& stream, const Film& film);
 	Item() = default;
 	Item(const string& titre, int annee): titre(titre), anneeSortie(annee){}
 	virtual ~Item(){}
@@ -125,12 +150,16 @@ public:
 	Film() = default;
 	friend shared_ptr<Acteur> ListeFilms::trouverActeur(const string& nomActeur) const;
 	friend Film* lireFilm(istream& fichier, ListeFilms& listeFilms);
-	friend ostream& operator<<(ostream& stream, const Film& film);
 	friend void detruireFilm(Film* film);
 
+	ListeActeurs obtenirActeurs() {
+		return acteurs;
+	}
 	virtual ~Film(){}
 
 	virtual void afficher(bool avecItem) const override;
+	
+
 private:
 	string realisateur = "";
 	int recette = 0;

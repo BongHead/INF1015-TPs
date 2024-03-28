@@ -257,12 +257,25 @@ forward_list<shared_ptr<Item>> inverserListe(const forward_list<shared_ptr<Item>
 
 forward_list<shared_ptr<Item>> copierListe(const forward_list<shared_ptr<Item>>& liste) {
 	forward_list<shared_ptr<Item>> temp;
-	temp.push_front(*liste.begin());
+	auto positionFin = temp.before_begin();
 	for (auto&& item : liste) {
-		temp.insert_after();
+		positionFin = temp.insert_after(positionFin, item);
 	}
 	return temp;
 }
+
+vector<shared_ptr<Item>> copierInverseVersVecteur(const forward_list<shared_ptr<Item>>& liste) {
+	vector<shared_ptr<Item>> temp(distance(liste.begin(), liste.end())); // O(n)
+	int tailleVecteur = temp.size(); // O(1)
+	for (auto&& item : liste) { // O(n)
+		temp[--tailleVecteur] = item; // O(1)
+	}
+	return temp;
+}
+
+
+
+
 
 int main()
 {
@@ -296,23 +309,43 @@ int main()
 	
 
 	cout << ligneDeSeparation;
+
+
 	// TD5
-
 	forward_list<shared_ptr<Item>> liste1;
-
-	for (int i = bibliotheque.size(); i > 0; i--) {
-		liste1.push_front(bibliotheque[i - 1]);
-	}
+	// 1.1
+	for (int i = bibliotheque.size()-1; i >= 0; i--)
+		liste1.push_front(bibliotheque[i]);
+	cout << "Liste 1: " << endl;
 	afficherListeItems<forward_list<shared_ptr<Item>>>(liste1);
 	forward_list<shared_ptr<Item>> liste2 = inverserListe(liste1);
 	
+	// 1.2
 	cout << ligneDeSeparation;
+	cout << "Liste 2: " << endl;
 	afficherListeItems<forward_list<shared_ptr<Item>>>(liste2);
+	cout << ligneDeSeparation;
 	
-
-	forward_list<shared_ptr<Item>> liste3(liste1);
-
+	// 1.3
+	cout << ligneDeSeparation;
+	forward_list<shared_ptr<Item>> liste3 = copierListe(liste1);
+	cout << "Liste 3: " << endl;
 	afficherListeItems<forward_list<shared_ptr<Item>>>(liste3);
+	cout << ligneDeSeparation;
 
+	// 1.4
+	vector<shared_ptr<Item>> liste4 = copierInverseVersVecteur(liste1);
+	cout << "Liste 4: " << endl;
+	afficherListeItems<vector<shared_ptr<Item>>>(liste4); // O(n)
+	cout << ligneDeSeparation;
+
+	// 1.5
+	Film* alien = listeFilms[0];
+	cout << "Acteurs du film " << (*alien);
+	for (auto&& item : alien->obtenirActeurs())
+		cout << *(item);
+	cout << ligneDeSeparation;
+
+	// 2.1
 
 }
